@@ -13,6 +13,8 @@ let state = 'explore';
 let shahriari;
 let fountainZone;
 let fountainImg;
+let dir = 'down';
+let skin = '';
 
 const mealFiles = {
   frary: ['frary bibimbap.jpeg', 'frary broccolini.jpeg', 'frary congee.jpeg', 'frary ramen.jpeg',
@@ -72,6 +74,17 @@ function setup()
   player.addAni('right', 'assets/xitlaly_side.png');
   player.rotationLock = true;
   player.friction = 0;
+
+  player.addAni('down2', 'assets/Jack_front.PNG');
+  player.addAni('up2', 'assets/Jack_back.PNG');
+  player.addAni('left2', 'assets/Jack_left1.PNG');
+  player.addAni('right2', 'assets/Jack_right1.PNG');
+  for (const name of ['down2', 'up2', 'left2', 'right2']) 
+  {
+  player.anis[name].scale = 0.5;
+  }
+  player.changeAni('down');
+
 
   shahriari = new Sprite(200, 250, 14);
   shahriari.image = 'assets/prof_sprite.png';
@@ -230,35 +243,30 @@ function movement()
   if(kb.pressing('left'))
   {
     player.vel.x -= SPEED;
-    if(player.ani.name !== 'left')
-    {
-      player.changeAni('left');
-    }
+    dir = 'left';
   }
   if(kb.pressing('right'))
   {
     player.vel.x += SPEED;
-    if(player.ani.name !== 'right')
-    {
-      player.changeAni('right');
-    }
+    dir = 'right';
   }
   if(kb.pressing('up'))
   {
     player.vel.y -= SPEED;
-    if(player.ani.name !== 'up')
-    {
-      player.changeAni('up');
-    }
+    dir = 'up';
   }
   if(kb.pressing('down'))
   {
     player.vel.y += SPEED;
-    if(player.ani.name !== 'down')
-    {
-      player.changeAni('down');
-    }
+    dir = 'down';
   }
+  if(kb.presses('c'))
+  {
+    skin = (skin === '') ? '2' : '';
+  }
+
+  const want = dir + skin;
+  if(player.ani.name !== want) player.changeAni(want);
   // camera zoom toggle
   if(kb.presses('z'))
   {
